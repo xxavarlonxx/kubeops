@@ -70,7 +70,7 @@ spec:
           containerPort: 50000
         volumeMounts:
           - name: jenkins-data
-            mountPath: /usr/share/nginx/html
+            mountPath: /var/jenkins_home
       volumes:
       - name: jenkins-data
         persistentVolumeClaim:
