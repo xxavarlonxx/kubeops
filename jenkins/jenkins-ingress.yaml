@@ -1,0 +1,48 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jenkins-cert
+  namespace: jenkins
+spec:
+  secretName: jenkins-tls-secret
+  issuerRef:
+    name: ssl-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - jenkins.kube.home
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-ingress
+  namespace: jenkins
+  annotations:
+    # (Optional): Annotations for the Ingress Controller
+    # -- ingress class is needed when traefik is not the default
+    kubernetes.io/ingress.class: traefik
+    # ---
+    # -- entrypoint and tls configurations
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # ---
+    # -- optional middlewares
+    # traefik.ingress.kubernetes.io/router.middlewares:your-middleware@kubernetescrd
+    # ---
+spec:
+  rules:
+  - host: "jenkins.kube.home"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkins-service
+            port:
+              number: 8080
+  # (Optional) TLS settings
+  tls:
+  - hosts:
+    - jenkins.kube.home  # Your hostname
+    secretName: jenkins-tls-secret # Your TLS Secret
+  # ---
