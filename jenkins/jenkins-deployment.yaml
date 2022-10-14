@@ -16,7 +16,7 @@ spec:
   storageClassName: nfs-client
   resources:
     requests:
-      storage: 4Gi
+      storage: 8Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
