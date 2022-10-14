@@ -9,7 +9,7 @@ spec:
     name: ssl-issuer
     kind: ClusterIssuer
   dnsNames:
-    - nginx.kube.home
+    - nginx-test.kube.home
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -30,7 +30,7 @@ metadata:
     # ---
 spec:
   rules:
-  - host: "nginx.kube.home"
+  - host: "nginx-test.kube.home"
     http:
       paths:
       - path: /
@@ -43,6 +43,6 @@ spec:
   # (Optional) TLS settings
   tls:
   - hosts:
-    - nginx.kube.home  # Your hostname
+    - nginx-test.kube.home  # Your hostname
     secretName: nginx-tls-secret # Your TLS Secret
   # ---
